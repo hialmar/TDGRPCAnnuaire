@@ -6,10 +6,10 @@ import com.proto.annuaire.Personne;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class RessourcesMetier {
+public class MetierAnnuaire {
     HashMap<Personne, InfoRessource> ressources;
 
-    public RessourcesMetier() {
+    public MetierAnnuaire() {
         ressources = new HashMap<>();
     }
 
@@ -23,7 +23,7 @@ public class RessourcesMetier {
     }
 
     public boolean delRessource(Personne personne) {
-        if (ressources.containsKey(personne)) {
+        if (!ressources.containsKey(personne)) {
             return false;
         } else {
             ressources.remove(personne);
