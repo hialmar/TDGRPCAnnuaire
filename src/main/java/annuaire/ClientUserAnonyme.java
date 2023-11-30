@@ -22,27 +22,28 @@ public class ClientUserAnonyme {
         /* Invocation du service */
         System.out.println("ClientUserAnonyme");
         System.out.println("Client TEST du service Annuaire");
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("Tapez le nom, LIST pour lister ou FIN pour terminer");
-            String nom = sc.next();
-            if (nom.equals("FIN")) break;
-            if (nom.equals("LIST")) {
-                System.out.println("Liste des personnes : ");
-                Empty reqOne = Empty.newBuilder().build();
-                Iterator<Personne> it = RechClient.listRessources(reqOne);
-                while (it.hasNext()) {
-                    System.out.println(it.next());
+        try (Scanner sc = new Scanner(System.in)) {
+            while (true) {
+                System.out.println("Tapez le nom, LIST pour lister ou FIN pour terminer");
+                String nom = sc.next();
+                if (nom.equals("FIN")) break;
+                if (nom.equals("LIST")) {
+                    System.out.println("Liste des personnes : ");
+                    Empty reqOne = Empty.newBuilder().build();
+                    Iterator<Personne> it = RechClient.listRessources(reqOne);
+                    while (it.hasNext()) {
+                        System.out.println(it.next());
+                    }
+                    continue;
                 }
-                continue;
+                System.out.println("Tapez le prénom");
+                String prenom = sc.next();
+                Personne p = Personne.newBuilder().setNom(nom).setPrenom(prenom).build();
+                System.out.println("Recherche de la personne : " + p);
+                DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
+                System.out.println("Réponse : ");
+                System.out.println(RechClient.getRessource(reqOne));
             }
-            System.out.println("Tapez le prénom");
-            String prenom = sc.next();
-            Personne p = Personne.newBuilder().setNom(nom).setPrenom(prenom).build();
-            System.out.println("Recherche de la personne : " + p);
-            DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
-            System.out.println("Réponse : ");
-            System.out.println(RechClient.getRessource(reqOne));
         }
     }
 }
