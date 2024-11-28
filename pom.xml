@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>fr.miage.toulouse.torguet</groupId>
     <artifactId>TDGRPCAnnuaire</artifactId>
     <packaging>jar</packaging>
-    <!-- Feel free to delete the comment at the end of these lines. It is just
-         for safely updating the version in our release process. -->
-    <version>1.42.1</version><!-- CURRENT_GRPC_VERSION -->
-    <name>TPAuthGRPC</name>
-    <url>https://github.com/grpc/grpc-java</url>
+    <version>1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

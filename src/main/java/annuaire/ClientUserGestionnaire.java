@@ -18,7 +18,7 @@ public class ClientUserGestionnaire {
         GestionRessourcesServiceGrpc.GestionRessourcesServiceBlockingStub RechClient = GestionRessourcesServiceGrpc.newBlockingStub(channel);
 
         /* Invocation du service */
-        System.out.println("ClientUserAnonyme");
+        System.out.println("ClientUserGestionnaire");
         System.out.println("Client TEST du service Annuaire");
         Scanner sc = new Scanner(System.in);
         boolean fini = false;
