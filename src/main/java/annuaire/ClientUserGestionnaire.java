@@ -15,7 +15,7 @@ public class ClientUserGestionnaire {
                 .usePlaintext()
                 .build();
         /* Creation stub pour invocation synchrone blocante sur le service distant */
-        GestionRessourcesServiceGrpc.GestionRessourcesServiceBlockingStub RechClient = GestionRessourcesServiceGrpc.newBlockingStub(channel);
+        GestionRessourcesServiceGrpc.GestionRessourcesServiceBlockingStub blockingStub = GestionRessourcesServiceGrpc.newBlockingStub(channel);
 
         /* Invocation du service */
         System.out.println("ClientUserGestionnaire");
@@ -61,7 +61,7 @@ public class ClientUserGestionnaire {
                     Entree entree = Entree.newBuilder().setIndividu(p).setInfo(info).build();
                     AURequest reqOne = AURequest.newBuilder().setRessource(entree).build();
                     System.out.println("Réponse : ");
-                    System.out.println(RechClient.addRessource(reqOne));
+                    System.out.println(blockingStub.addRessource(reqOne));
                 }
 
                 case 2 -> {
@@ -75,7 +75,7 @@ public class ClientUserGestionnaire {
                     Personne p = Personne.newBuilder().setNom(nom).setPrenom(prenom).build();
                     DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                     System.out.println("Réponse : ");
-                    System.out.println(RechClient.delRessource(reqOne));
+                    System.out.println(blockingStub.delRessource(reqOne));
                 }
                 case 3 -> { // mise à jour d'une personne
                     System.out.println("Tapez le nom");
@@ -97,7 +97,7 @@ public class ClientUserGestionnaire {
                     Entree entree = Entree.newBuilder().setIndividu(p).setInfo(info).build();
                     AURequest reqOne = AURequest.newBuilder().setRessource(entree).build();
                     System.out.println("Réponse : ");
-                    System.out.println(RechClient.modifyRessource(reqOne));
+                    System.out.println(blockingStub.modifyRessource(reqOne));
                 }
                 case 4 -> { // recherche d'une personne
                     System.out.println("Tapez le nom ou FIN pour terminer");
@@ -108,14 +108,14 @@ public class ClientUserGestionnaire {
                     System.out.println("Recherche de la personne : " + p);
                     DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                     System.out.println("Réponse : ");
-                    System.out.println(RechClient.getRessource(reqOne));
+                    System.out.println(blockingStub.getRessource(reqOne));
                 }
                 case 5 -> { // lister toutes les personnes
                     System.out.println("Liste des personnes : ");
                     Empty reqOne = Empty.newBuilder().build();
-                    RechClient.listRessources(reqOne).forEachRemaining(System.out::println);
+                    blockingStub.listRessources(reqOne).forEachRemaining(System.out::println);
                     // Autre solution :
-                    for (Iterator<Personne> it = RechClient.listRessources(reqOne); it.hasNext(); ) {
+                    for (Iterator<Personne> it = blockingStub.listRessources(reqOne); it.hasNext(); ) {
                         Personne personne = it.next();
                         System.out.println(personne);
                     }

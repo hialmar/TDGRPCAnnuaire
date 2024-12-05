@@ -17,7 +17,7 @@ public class ClientUserAnonyme {
                 .usePlaintext()
                 .build();
         /* Creation stub pour invocation synchrone blocante sur le service distant */
-        GestionRessourcesServiceGrpc.GestionRessourcesServiceBlockingStub RechClient = GestionRessourcesServiceGrpc.newBlockingStub(channel);
+        GestionRessourcesServiceGrpc.GestionRessourcesServiceBlockingStub blockingStub = GestionRessourcesServiceGrpc.newBlockingStub(channel);
 
         /* Invocation du service */
         System.out.println("ClientUserAnonyme");
@@ -30,7 +30,7 @@ public class ClientUserAnonyme {
                 if (nom.equals("LIST")) {
                     System.out.println("Liste des personnes : ");
                     Empty reqOne = Empty.newBuilder().build();
-                    Iterator<Personne> it = RechClient.listRessources(reqOne);
+                    Iterator<Personne> it = blockingStub.listRessources(reqOne);
                     while (it.hasNext()) {
                         System.out.println(it.next());
                     }
@@ -42,7 +42,7 @@ public class ClientUserAnonyme {
                 System.out.println("Recherche de la personne : " + p);
                 DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                 System.out.println("Réponse : ");
-                System.out.println(RechClient.getRessource(reqOne));
+                System.out.println(blockingStub.getRessource(reqOne));
             }
         }
     }
