@@ -2,6 +2,7 @@ package annuaire;
 
 import com.google.protobuf.Empty;
 import com.proto.annuaire.*;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Iterator;
@@ -17,30 +18,31 @@ public class GestionRessourcesServiceImpl extends GestionRessourcesServiceGrpc.G
     public void addRessource(AURequest request, StreamObserver<AUDResponse> responseObserver) {
         if (metierAnnuaire.addRessource(request.getRessource().getIndividu(), request.getRessource().getInfo())) {
             responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DONE).build());
+            responseObserver.onCompleted();
         } else {
-            responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DENY_DUPLICATED).build());
+            responseObserver.onError(Status.ALREADY_EXISTS.asRuntimeException());
         }
-        responseObserver.onCompleted();
     }
 
     @Override
     public void delRessource(DGRequest request, StreamObserver<AUDResponse> responseObserver) {
         if (metierAnnuaire.delRessource(request.getRessource())) {
             responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DONE).build());
+            responseObserver.onCompleted();
         } else {
-            responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DENY_NOT_FOUND).build());
+            responseObserver.onError(Status.NOT_FOUND.asRuntimeException());
         }
-        responseObserver.onCompleted();
     }
 
     @Override
     public void modifyRessource(AURequest request, StreamObserver<AUDResponse> responseObserver) {
         if (metierAnnuaire.modifyRessource(request.getRessource().getIndividu(), request.getRessource().getInfo())) {
             responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DONE).build());
+            responseObserver.onCompleted();
         } else {
-            responseObserver.onNext(AUDResponse.newBuilder().setCr(TypeCR.DENY_NOT_FOUND).build());
+            responseObserver.onError(Status.NOT_FOUND.asRuntimeException());
         }
-        responseObserver.onCompleted();
+
     }
 
     @Override
@@ -49,10 +51,10 @@ public class GestionRessourcesServiceImpl extends GestionRessourcesServiceGrpc.G
         if (infoRessource != null) {
             Entree entree = Entree.newBuilder().setIndividu(request.getRessource()).setInfo(infoRessource).build();
             responseObserver.onNext(GResponse.newBuilder().setCr(TypeCR.DONE).setRessource(entree).build());
+            responseObserver.onCompleted();
         } else {
-            responseObserver.onNext(GResponse.newBuilder().setCr(TypeCR.DENY_NOT_FOUND).build());
+            responseObserver.onError(Status.NOT_FOUND.asRuntimeException());
         }
-        responseObserver.onCompleted();
     }
 
     @Override

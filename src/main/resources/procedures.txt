@@ -1,0 +1,23 @@
+interface IAnnuaire {
+    int ajouter_entree_annuaire (in string name, in struct infoP info);
+    int supprimer_entree_annuaire (in string name) ;
+    int modifier_entree_annuaire (in string name, in struct infoP info) ;
+    int consulter_entree_annuaire (in string name, out struct infoP info);
+    void lister_noms_annuaire(out string[] tabname);
+}
+
+OU
+
+interface IConsultation {
+    int consulter_entree_annuaire (in string name, out struct infoP info);
+    void lister_noms_annuaire(out string[] tabname);
+}
+
+interface IModification {
+    int modifier_entree_annuaire (in string name, in struct infoP info) ;
+}
+
+interface IGestion {
+    int ajouter_entree_annuaire (in string name, in struct infoP info);
+    int supprimer_entree_annuaire (in string name) ;
+}

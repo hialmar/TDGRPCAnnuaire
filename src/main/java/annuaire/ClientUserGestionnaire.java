@@ -4,8 +4,8 @@ import com.google.protobuf.Empty;
 import com.proto.annuaire.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class ClientUserGestionnaire {
@@ -61,7 +61,11 @@ public class ClientUserGestionnaire {
                     Entree entree = Entree.newBuilder().setIndividu(p).setInfo(info).build();
                     AURequest reqOne = AURequest.newBuilder().setRessource(entree).build();
                     System.out.println("Réponse : ");
-                    System.out.println(blockingStub.addRessource(reqOne));
+                    try {
+                        System.out.println(blockingStub.addRessource(reqOne));
+                    } catch (StatusRuntimeException exception) {
+                        System.err.println(exception.getStatus());
+                    }
                 }
 
                 case 2 -> {
@@ -75,7 +79,11 @@ public class ClientUserGestionnaire {
                     Personne p = Personne.newBuilder().setNom(nom).setPrenom(prenom).build();
                     DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                     System.out.println("Réponse : ");
-                    System.out.println(blockingStub.delRessource(reqOne));
+                    try {
+                        System.out.println(blockingStub.delRessource(reqOne));
+                    } catch (StatusRuntimeException exception) {
+                        System.err.println(exception.getStatus());
+                    }
                 }
                 case 3 -> { // mise à jour d'une personne
                     System.out.println("Tapez le nom");
@@ -97,7 +105,11 @@ public class ClientUserGestionnaire {
                     Entree entree = Entree.newBuilder().setIndividu(p).setInfo(info).build();
                     AURequest reqOne = AURequest.newBuilder().setRessource(entree).build();
                     System.out.println("Réponse : ");
-                    System.out.println(blockingStub.modifyRessource(reqOne));
+                    try {
+                        System.out.println(blockingStub.modifyRessource(reqOne));
+                    } catch (StatusRuntimeException exception) {
+                        System.err.println(exception.getStatus());
+                    }
                 }
                 case 4 -> { // recherche d'une personne
                     System.out.println("Tapez le nom ou FIN pour terminer");
@@ -108,17 +120,21 @@ public class ClientUserGestionnaire {
                     System.out.println("Recherche de la personne : " + p);
                     DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                     System.out.println("Réponse : ");
-                    System.out.println(blockingStub.getRessource(reqOne));
+                    try {
+                        System.out.println(blockingStub.getRessource(reqOne));
+                    } catch (StatusRuntimeException exception) {
+                        System.err.println(exception.getStatus());
+                    }
                 }
                 case 5 -> { // lister toutes les personnes
                     System.out.println("Liste des personnes : ");
                     Empty reqOne = Empty.newBuilder().build();
                     blockingStub.listRessources(reqOne).forEachRemaining(System.out::println);
                     // Autre solution :
-                    for (Iterator<Personne> it = blockingStub.listRessources(reqOne); it.hasNext(); ) {
-                        Personne personne = it.next();
-                        System.out.println(personne);
-                    }
+                    //for (Iterator<Personne> it = blockingStub.listRessources(reqOne); it.hasNext(); ) {
+                    //    Personne personne = it.next();
+                    //    System.out.println(personne);
+                    //}
                 }
             }
         }

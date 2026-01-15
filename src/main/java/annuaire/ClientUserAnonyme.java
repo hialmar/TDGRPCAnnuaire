@@ -6,6 +6,7 @@ import com.proto.annuaire.GestionRessourcesServiceGrpc;
 import com.proto.annuaire.Personne;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 
 import java.util.Iterator;
 import java.util.Scanner;
@@ -42,7 +43,11 @@ public class ClientUserAnonyme {
                 System.out.println("Recherche de la personne : " + p);
                 DGRequest reqOne = DGRequest.newBuilder().setRessource(p).build();
                 System.out.println("Réponse : ");
-                System.out.println(blockingStub.getRessource(reqOne));
+                try {
+                    System.out.println(blockingStub.getRessource(reqOne));
+                } catch (StatusRuntimeException exception) {
+                    System.err.println(exception.getStatus());
+                }
             }
         }
     }
